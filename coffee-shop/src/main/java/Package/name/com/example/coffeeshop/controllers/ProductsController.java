@@ -39,7 +39,13 @@ public class ProductsController {
         model.addAttribute("products", products);
         return "products/Doankem";
     }
-
+    // Trang login
+    @GetMapping("/login")
+    public String loginProductList(Model model) {
+        List<Product> products = repo.findAll();
+        model.addAttribute("products", products);
+        return "products/login";
+    }
 
     // Trang lỗi
     @GetMapping("/custom-error")
