@@ -10,7 +10,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String tragop;
+
     private String name;
     private String image;
     private String img_detail;
@@ -33,20 +33,14 @@ public class Product {
     }
 
     // Getter và Setter
+
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTragop() {
-        return tragop;
-    }
-
-    public void setTragop(String tragop) {
-        this.tragop = tragop;
     }
 
     public String getName() {
@@ -110,6 +104,6 @@ public class Product {
     }
 
     public void setHidden(boolean hidden) {
-        this.isHidden = hidden;
+        isHidden = hidden;
     }
 }

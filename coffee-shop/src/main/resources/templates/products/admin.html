@@ -205,7 +205,6 @@
             <div class="original-price"
                  th:text="${#numbers.formatDecimal(product.pricesgoc, 0, 'COMMA', 0, 'POINT')} + ' ₫'">
             </div>
-            <small class="text-muted" th:text="${product.tragop}"></small>
             <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin: 0">
               <input type="hidden" name="_method" value="DELETE" />
               <button type="submit" class="btn-delete"
