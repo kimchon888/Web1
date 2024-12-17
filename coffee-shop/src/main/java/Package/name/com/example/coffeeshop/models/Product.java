@@ -106,4 +106,5 @@ public class Product {
     public void setHidden(boolean hidden) {
         isHidden = hidden;
     }
+
 }

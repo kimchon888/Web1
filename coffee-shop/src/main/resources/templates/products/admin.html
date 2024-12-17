@@ -163,32 +163,38 @@
     <!-- Phần thêm sản phẩm mới -->
     <div class="admin-section">
       <h2 class="section-title">Thêm Sản Phẩm Mới</h2>
-      <form class="add-product-form">
+      <div th:if="${param.error}" class="alert alert-danger">
+        <span th:text="${param.error}"></span>
+      </div>
+      <div th:if="${param.success}" class="alert alert-success">
+        <span th:text="${param.success}"></span>
+      </div>
+
+      <form th:action="@{/}" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label>Tên sản phẩm</label>
-          <input type="text" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label>Giá bán</label>
-          <input type="number" class="form-control" required>
+          <input type="text" class="form-control" name="name" required>
         </div>
         <div class="form-group">
           <label>Giá gốc</label>
-          <input type="number" class="form-control" required>
+          <input type="number" class="form-control" name="pricesgoc" required>
+        </div>
+        <div class="form-group">
+          <label>Giá bán</label>
+          <input type="number" class="form-control" name="prices" required>
         </div>
         <div class="form-group">
           <label>Hình ảnh</label>
-          <input type="file" class="form-control" required>
+          <input type="file" class="form-control" name="image" required>
         </div>
-        <div class="form-group">
-          <label>Trả góp</label>
-          <input type="text" class="form-control">
-        </div>
-        <button type="submit" class="btn-submit">
-          <i class="fas fa-plus-circle me-2"></i>Thêm sản phẩm
-        </button>
+        <button type="submit" class="btn btn-submit">Thêm sản phẩm</button>
       </form>
+
+
+
+
     </div>
+
 
     <!-- Phần danh sách và xóa sản phẩm -->
     <div class="admin-section">
@@ -205,13 +211,14 @@
             <div class="original-price"
                  th:text="${#numbers.formatDecimal(product.pricesgoc, 0, 'COMMA', 0, 'POINT')} + ' ₫'">
             </div>
-            <form th:action="@{'/delete/' + ${product.id}}" method="post" style="margin: 0">
-              <input type="hidden" name="_method" value="DELETE" />
+            <form th:action="@{/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
               <button type="submit" class="btn-delete"
                       onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">
                 <i class="fas fa-trash me-2"></i>Xóa sản phẩm
               </button>
             </form>
+
+
           </div>
         </div>
       </div>

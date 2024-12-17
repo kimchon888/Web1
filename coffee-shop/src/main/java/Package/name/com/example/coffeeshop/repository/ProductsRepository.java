@@ -1,4 +1,4 @@
-package Package.name.com.example.coffeeshop.services;
+package Package.name.com.example.coffeeshop.repository;
 
 
 import Package.name.com.example.coffeeshop.models.Product;

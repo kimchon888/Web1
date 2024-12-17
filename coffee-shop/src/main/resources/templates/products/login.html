@@ -95,6 +95,10 @@
       <button type="submit" class="btn btn-primary btn-block">Đăng Ký</button>
     </form>
   </div>
+  <div class="admin-page" style="display: none;">
+    <h1>Trang Admin</h1>
+    <!-- Thêm nội dung trang admin ở đây -->
+  </div>
 </div>
 
 <script>
@@ -136,8 +140,9 @@
       });
 
       if (response.ok) {
-        // Chuyển hướng đến trang admin
-        window.location.href = '/admin';
+        // Hiển thị trang admin và ẩn trang đăng nhập/đăng ký
+        document.querySelector('.login-register-container').style.display = 'none';
+        document.querySelector('.admin-page').style.display = 'block';
       } else {
         alert('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
       }
