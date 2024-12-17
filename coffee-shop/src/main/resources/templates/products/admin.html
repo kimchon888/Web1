@@ -169,28 +169,34 @@
       <div th:if="${param.success}" class="alert alert-success">
         <span th:text="${param.success}"></span>
       </div>
-
-      <form th:action="@{/}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-          <label>Tên sản phẩm</label>
-          <input type="text" class="form-control" name="name" required>
-        </div>
-        <div class="form-group">
-          <label>Giá gốc</label>
-          <input type="number" class="form-control" name="pricesgoc" required>
-        </div>
-        <div class="form-group">
-          <label>Giá bán</label>
-          <input type="number" class="form-control" name="prices" required>
-        </div>
-        <div class="form-group">
-          <label>Hình ảnh</label>
-          <input type="file" class="form-control" name="image" required>
-        </div>
-        <button type="submit" class="btn btn-submit">Thêm sản phẩm</button>
-      </form>
+      <div th:if="${param.success}" class="alert alert-prices">
+        <span th:text="${param.success}"></span>
+      </div>
 
 
+      <form th:action="@{/add-product}" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>Tên sản phẩm</label>
+            <input type="text" class="form-control" name="name" required>
+          </div>
+          <div class="form-group">
+            <label>Giá gốc</label>
+            <input type="number" class="form-control" name="pricesgoc" required>
+          </div>
+          <div class="form-group">
+            <label>Giá bán</label>
+            <input type="number" class="form-control" name="prices" required>
+          </div>
+          <div class="form-group">
+            <label>Ảnh chính</label>
+            <input type="file" class="form-control" name="image" required>
+          </div>
+          <div class="form-group">
+            <label>Ảnh chi tiết</label>
+            <input type="file" class="form-control" name="img_detail" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+        </form>
 
 
     </div>

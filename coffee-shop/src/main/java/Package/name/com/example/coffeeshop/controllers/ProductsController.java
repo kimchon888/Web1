@@ -3,6 +3,7 @@ package Package.name.com.example.coffeeshop.controllers;
 
 
 import Package.name.com.example.coffeeshop.models.Product;
+import Package.name.com.example.coffeeshop.models.ProductDTO;
 import Package.name.com.example.coffeeshop.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
@@ -21,7 +26,7 @@ public class ProductsController {
     @Autowired
     private ProductsRepository repo;
 
-//     Trang chủ
+    // Trang chủ
     @GetMapping("/")
     public String homeProductList(Model model) {
         List<Product> products = repo.findAll();
@@ -89,34 +94,50 @@ public class ProductsController {
         model.addAttribute("products", products);
         return "products/admin";
     }
-    @PostMapping("/")
-    public String addProduct(@ModelAttribute Product product,
-                             @RequestParam("image") MultipartFile image,
-                             RedirectAttributes redirectAttributes) {
+    // Thêm sản phẩm mới
+    @PostMapping("/add-product")
+    public String addProduct(
+            @ModelAttribute ProductDTO productDTO,
+            RedirectAttributes redirectAttributes) {
         try {
-            // Kiểm tra thông tin sản phẩm
-            if (product.getName() == null || product.getPrices() <= 0 || product.getPricesgoc() <= 0) {
-                redirectAttributes.addFlashAttribute("error", "Tên sản phẩm, giá bán và giá gốc không được để trống!");
-                return "redirect:/admin"; // Quay lại trang admin
+            // Tạo đối tượng Product từ ProductDTO
+            Product product = new Product();
+            product.setName(productDTO.getName());
+            product.setPricesgoc(productDTO.getPricesgoc());
+            product.setPrices(productDTO.getPrices());
+            product.setDanhgia(productDTO.getDanhgia());
+            product.setDescription(productDTO.getDescription());
+            product.setBaiviet(productDTO.getBaiviet());
+
+            // Xử lý file `image`
+            if (!productDTO.getImage().isEmpty()) {
+                String uploadDir = "src/main/resources/static/images/imageProducts/";
+                String fileName = productDTO.getImage().getOriginalFilename();
+                productDTO.getImage().transferTo(new File(uploadDir + fileName));
+                product.setImage(fileName);
             }
 
-            // Xử lý hình ảnh
-            if (image != null && !image.isEmpty()) {
-                String imagePath = "C:/path/to/your/images/" + image.getOriginalFilename();
-                image.transferTo(new File(imagePath)); // Lưu tệp hình ảnh
-                product.setImage(image.getOriginalFilename()); // Lưu tên tệp vào trường image
-            } else {
-                product.setImage(null); // Hoặc xử lý trường hợp không có hình ảnh
+            // Xử lý file `img_detail`
+            if (!productDTO.getImg_detail().isEmpty()) {
+                String uploadDir = "src/main/resources/static/images/imageDetails/";
+                String fileName = productDTO.getImg_detail().getOriginalFilename();
+                productDTO.getImg_detail().transferTo(new File(uploadDir + fileName));
+                product.setImg_detail(fileName);
             }
 
-            // Lưu sản phẩm
+            // Lưu vào cơ sở dữ liệu
             repo.save(product);
             redirectAttributes.addFlashAttribute("success", "Thêm sản phẩm thành công!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra: " + e.getMessage());
         }
-        return "redirect:/"; // Quay lại trang home
+        return "redirect:/";
     }
+
+
+
+
+
 
 
     // Xóa sản phẩm
@@ -148,3 +169,6 @@ public class ProductsController {
         return "products/cart";
     }
 }
+
+
+
